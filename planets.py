@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 worlds = { "mercury" : "burning",
            "venus"   : "greenhousy",
            "earth"   : "comfy",
@@ -8,7 +9,14 @@ worlds = { "mercury" : "burning",
            "uranus"  : "buttly",
            "pluto"   : "NOT A PLANET", }
 
-def main():
+
+def solar_sys_info():
+    """ Instructional function that takes input from the user and prints
+        information to the screen about the corresponding planet.
+
+    Args: none
+
+    Returns: none """
     print("\nHello, it is time to learn about the planets!")
     
     while True :
@@ -24,5 +32,6 @@ def main():
             except :
                 print("No idea what went wrong here...")
 
+
 if __name__ == '__main__':
-    main()
+    solar_sys_info()
