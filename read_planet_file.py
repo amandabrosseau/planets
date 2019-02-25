@@ -55,13 +55,13 @@ def get_header_info(stripped_list):
         Args : A list of string lists representing rows in a 
         CSV file, with leading empty rows removed
 
-        Returns: a list that contains the index of the non-empty 
-        row and the corresponding header text
+        Returns: 
     """
     header_info = []
     for idx, entry in enumerate(stripped_list[0]): # Assume first list item is header info
         if entry != '':
-            header_info.append([idx, entry])
+            header_info.append({'name': entry,
+                                'index': idx})
     return header_info
 
 
@@ -71,7 +71,7 @@ def populate_planet_info(stripped_list, header_info):
         if idx != 0: # Skip header row
             planets.append({})
             for field in header_info:
-                planets[-1][field[1]] = row[field[0]]
+                planets[-1][field['name']] = row[field['index']]
     return planets
 
 
