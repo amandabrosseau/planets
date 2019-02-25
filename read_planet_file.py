@@ -1,13 +1,18 @@
-def get_csv_list():
+#!/usr/bin/env python3
+
+
+def get_csv_list(csv):
     """
     """
-    with open('planets/bodies.csv') as planetfile :
+    with open(csv) as planetfile :
         read_data = planetfile.read()
         data_lines = read_data.split('\n')
         planet_data = []
         for line in data_lines :
             line_data = line.split(',')
             planet_data.append(line_data)
+    return planet_data
+
 
 def strip_empty_csv_rows(raw_list):
     """ A function that takes a raw list of lists of strings
@@ -29,6 +34,7 @@ def strip_empty_csv_rows(raw_list):
                 break
     return stripped_list
 
+
 def get_header_info(stripped_list):
     """ A function that takes a list of list of strings
         representing entries from a CSV file. This function
@@ -43,20 +49,31 @@ def get_header_info(stripped_list):
         Returns: a list that contains the index of the non-empty 
         row and the corresponding header text
     """
-    header_info = [[], []]
-    for idx, entry in enumerate(stripped_list[0]) # Assume first list item is header info
+    header_info = []
+    for idx, entry in enumerate(stripped_list[0]): # Assume first list item is header info
         if entry != '':
-            header_info[0] = idx
-            header_info[1] = entry
+            header_info.append([idx, entry])
     return header_info
 
-def populate_planet_info(stripped_list, header_info)
-    planets = [{}]
-    for idx, entry in enumerate(stripped_list):
-        if idx == 0: # Skip header row
-            break
-        else:
-            for entry in header_info[0]:
-                planet[idx][entry] = stripped_list[idx]
 
+def populate_planet_info(stripped_list, header_info):
+    planets = []
+    for idx, row in enumerate(stripped_list):
+        if idx != 0: # Skip header row
+            planets.append({})
+            for field in header_info:
+                planets[-1][field[1]] = row[field[0]]
+    return planets
+
+
+def pull_planet_data(csv = 'planets/bodies.csv'):
+    csv_data = get_csv_list(csv)
+    stripped_csv = strip_empty_csv_rows(csv_data)
+    header = get_header_info(stripped_csv)
+    return populate_planet_info(stripped_csv, header)
+
+
+if __name__ == '__main__':
+    pdata = pull_planet_data()
+    print(pdata)
 
