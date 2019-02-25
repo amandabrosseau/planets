@@ -2,7 +2,16 @@
 
 
 def get_csv_list(csv):
-    """
+    """ This function reads in an input CSV file and
+        separates the contents into a list of rows, which
+        are separated by newlines in the file, with each
+        row consisting of a list of the values, which are
+        separated by commas in the file
+        
+        Args : a path to a comma-separated file
+
+        Returns : a list with the contents of each row in
+        the input CSV, separated into a list of entries
     """
     with open(csv) as planetfile :
         read_data = planetfile.read()
