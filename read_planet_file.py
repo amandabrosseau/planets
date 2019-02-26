@@ -105,7 +105,7 @@ def populate_planet_info(stripped_list, header_info):
             planet = {}
             for field in header_info:
                 planet[field['name']] = row[field['index']]
-            planets[get_planet_name(row, header_info)] = planet
+            planets[get_planet_name(row, header_info).lower()] = planet
     return planets
 
 
