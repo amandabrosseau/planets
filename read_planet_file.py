@@ -65,17 +65,63 @@ def get_header_info(stripped_list):
     return header_info
 
 
+def get_planet_name(row, header_info):
+    """ This function takes a row from the stripped CSV
+        list and the dictionary containing the CSV header
+        information and returns the name of the planet. It
+        makes the assumption that there is a header entry
+        with the name 'name' (case-insensitive)
+
+        Args: row - a list that contains the contents of a single
+        CSV row of planet data
+        header_info - a dictionary that contains the header
+        titles and their column positions
+
+        Returns: A string representing name of the planet
+    """
+    for field in header_info:
+        if field['name'].lower() == 'name':
+            return row[field['index']]
+
+
 def populate_planet_info(stripped_list, header_info):
-    planets = []
+    """ This function takes the stripped, formatted data
+        from the CSV file and populates a dictionary of planet
+        information
+
+        Args: stripped_list - a list of string lists representing rows in a 
+        CSV file, with leading empty rows removed
+        header_info - a dictionary that contains the header
+        titles and their column positions
+
+        Returns: a dictionary contaning planet entries with
+        each planet as a dictionary entry, and each
+        dictionary value contains another dictionary of planet
+        facts, as determined by the fields in header_info
+    """
+    planets = {}
     for idx, row in enumerate(stripped_list):
         if idx != 0: # Skip header row
-            planets.append({})
+            planet = {}
             for field in header_info:
-                planets[-1][field['name']] = row[field['index']]
+                planet[field['name']] = row[field['index']]
+            planets[get_planet_name(row, header_info)] = planet
     return planets
 
 
 def pull_planet_data(csv = 'planets/bodies.csv'):
+    """ Opens the given CSV file and creates a dictionary
+        of planetary data from the information within
+
+        Args: csv - the path to the planetary body CSV file
+        The first non-empty row of the file must contain header
+        data and one of the header fields must be 'name' (case-insenitive)
+
+        Returns: a dictionary contaning planet entries with
+        each planet as a dictionary entry, and each
+        dictionary value contains another dictionary of planet
+        facts, as determined by the information in csv
+    """
     csv_data = get_csv_list(csv)
     stripped_csv = strip_empty_csv_rows(csv_data)
     header = get_header_info(stripped_csv)
