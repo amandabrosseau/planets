@@ -60,7 +60,16 @@ def get_header_info(stripped_list):
     header_info = []
     for idx, entry in enumerate(stripped_list[0]): # Assume first list item is header info
         if entry != '':
-            header_info.append({'name': entry,
+            short_name = entry.split()[0]
+            if entry.find('(') != -1:
+                field_name = entry[:entry.find('(')]
+                units = entry[entry.find('(')+1:entry.find(')')]; # text within parenthesis
+            else:
+                field_name = entry
+                units = None
+            header_info.append({'short_name': short_name,
+                                'name': field_name,
+                                'units': units,
                                 'index': idx})
     return header_info
 
@@ -81,7 +90,7 @@ def get_planet_name(row, header_info):
     """
     for field in header_info:
         if field['name'].lower() == 'name':
-            return row[field['index']]
+            return row[field['index']].lower()
 
 
 def populate_planet_info(stripped_list, header_info):
@@ -105,7 +114,7 @@ def populate_planet_info(stripped_list, header_info):
             planet = {}
             for field in header_info:
                 planet[field['name']] = row[field['index']]
-            planets[get_planet_name(row, header_info).lower()] = planet
+            planets[get_planet_name(row, header_info)] = planet
     return planets
 
 
