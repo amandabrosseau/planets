@@ -62,15 +62,15 @@ def get_header_info(stripped_list):
         if entry != '':
             short_name = entry.split()[0]
             if entry.find('(') != -1:
-                field_name = entry[:entry.find('(')]
-                units = entry[entry.find('(')+1:entry.find(')')]; # text within parenthesis
+                field_name = entry[:entry.find('(')].lower()
+                units = entry[entry.find('(')+1:entry.find(')')].lower(); # text within parenthesis
             else:
-                field_name = entry
+                field_name = entry.lower()
                 units = None
-            header_info.append({'short_name': short_name,
-                                'name': field_name,
+            header_info.append({'field_name_short': short_name,
+                                'field_name': field_name,
                                 'units': units,
-                                'index': idx})
+                                'column': idx})
     return header_info
 
 
@@ -89,8 +89,9 @@ def get_planet_name(row, header_info):
         Returns: A string representing name of the planet
     """
     for field in header_info:
-        if field['name'].lower() == 'name':
-            return row[field['index']].lower()
+        if field['field_name'].lower() == 'name':
+            return row[field['column']].lower()
+
 
 
 def populate_planet_info(stripped_list, header_info):
@@ -112,9 +113,12 @@ def populate_planet_info(stripped_list, header_info):
     for idx, row in enumerate(stripped_list):
         if idx != 0: # Skip header row
             planet = {}
+            planet_name = get_planet_name(row, header_info)
             for field in header_info:
-                planet[field['name']] = row[field['index']]
-            planets[get_planet_name(row, header_info)] = planet
+                planet[field['field_name']] = { 'value' : row[field['column']],
+                                                'units' : field['units'],}
+            planets[planet_name] = planet
+            del planets[planet_name]['name']
     return planets
 
 
