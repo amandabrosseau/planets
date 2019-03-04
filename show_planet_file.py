@@ -23,14 +23,17 @@ def show_planet_file(csv = 'planets/bodies.csv'):
                     break
                 else:
                     try:
-                        if planet_data[planet][attribute]['units'] is not None:
-                            print(f"\n The {attribute} of {planet} is "+
-                                  planet_data[planet][attribute]["value"]+" "+
-                                  planet_data[planet][attribute]["units"])
-                        else:
-                            print(f"\n The {attribute} of {planet} is "+
-                                  planet_data[planet][attribute]["value"])
+                        show_attribute(planet_data, planet, attribute)
                     except KeyError:
                         print("Sorry, you must type one of the attributes exactly")
             except KeyError :
                 print("We're sorry, that planet is not in our database!\n")
+
+def show_attribute(planet_data, planet, attribute):
+    if planet_data[planet][attribute]['units'] is not None:
+        print(f"\n The {attribute} of {planet} is "+
+              planet_data[planet][attribute]["value"]+" "+
+              planet_data[planet][attribute]["units"])
+    else:
+        print(f"\n The {attribute} of {planet} is "+
+              planet_data[planet][attribute]["value"])
