@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+import pprint
 
 def get_csv_list(csv):
     """ This function reads in an input CSV file and
@@ -27,7 +29,7 @@ def strip_empty_csv_rows(raw_list):
     """ A function that takes a raw list of lists of strings
         representing entries from a CSV file. This function
         creates a new list that has the contents of the original
-        list, but with entris that only had empty strings removed
+        list, but with entries that only had empty strings removed
 
         Args : A list of strings lists representing rows
         in a CSV file
@@ -142,6 +144,13 @@ def pull_planet_data(csv = 'planets/bodies.csv'):
 
 
 if __name__ == '__main__':
-    pdata = pull_planet_data()
-    print(pdata)
+    pp = pprint.PrettyPrinter(indent = 4)
+    try:
+        if len(sys.argv) > 1:
+            pdata = pull_planet_data(sys.argv[1])
+        else:
+            pdata = pull_planet_data()
+        pp.pprint(pdata)
+    except FileNotFoundError as ferror:
+        print(f"Sorry, {ferror.filename} was not found! Aborting...")
 
