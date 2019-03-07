@@ -37,3 +37,6 @@ def show_attribute(planet_data, planet, attribute):
     else:
         print(f"\n The {attribute} of {planet} is "+
               planet_data[planet][attribute]["value"])
+
+if __name__ == '__main__':
+    show_planet_file()

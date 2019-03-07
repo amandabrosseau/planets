@@ -21,6 +21,9 @@ def get_csv_list(csv):
         planet_data = []
         for line in data_lines :
             line_data = line.split(',')
+            clean_line = []
+            for item in line:
+                clean_line.append(item.strip())
             planet_data.append(line_data)
     return planet_data
 
@@ -45,6 +48,11 @@ def strip_empty_csv_rows(raw_list):
                 break
     return stripped_list
 
+def get_text_within_parenthesis(string):
+    lidx = string.find('(')+1
+    ridx = string.find(')', lidx)
+    new_string = string[lidx:ridx]
+    return new_string
 
 def get_header_info(stripped_list):
     """ A function that takes a list of list of strings
@@ -64,8 +72,8 @@ def get_header_info(stripped_list):
         if entry != '':
             short_name = entry.split()[0]
             if entry.find('(') != -1:
-                field_name = entry[:entry.find('(')].lower()
-                units = entry[entry.find('(')+1:entry.find(')')].lower(); # text within parenthesis
+                field_name = entry[:entry.find('(')].lower().strip()
+                units = get_text_within_parenthesis(entry).lower(); # text within parenthesis
             else:
                 field_name = entry.lower()
                 units = None
