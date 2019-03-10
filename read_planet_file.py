@@ -20,11 +20,7 @@ def get_csv_list(csv):
         data_lines = read_data.split('\n')
         planet_data = []
         for line in data_lines :
-            line_data = line.split(',')
-            clean_line = []
-            for item in line:
-                clean_line.append(item.strip())
-            planet_data.append(line_data)
+            planet_data.append([item.strip() for item in line.split(',')])
     return planet_data
 
 
