@@ -48,11 +48,13 @@ def strip_empty_csv_rows(raw_list):
                 break
     return stripped_list
 
+
 def get_text_within_parenthesis(string):
     lidx = string.find('(')+1
     ridx = string.find(')', lidx)
     new_string = string[lidx:ridx]
     return new_string
+
 
 def get_header_info(stripped_list):
     """ A function that takes a list of list of strings
