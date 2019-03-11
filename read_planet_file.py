@@ -3,6 +3,7 @@
 import sys
 import pprint
 
+
 def get_csv_list(csv):
     """ This function reads in an input CSV file and
         separates the contents into a list of rows, which
@@ -16,8 +17,7 @@ def get_csv_list(csv):
         the input CSV, separated into a list of entries
     """
     with open(csv) as planetfile :
-        read_data = planetfile.read()
-        data_lines = read_data.split('\n')
+        data_lines = planetfile.read().split('\n')
         planet_data = []
         for line in data_lines :
             planet_data.append([item.strip() for item in line.split(',')])
@@ -38,10 +38,8 @@ def strip_empty_csv_rows(raw_list):
     """
     stripped_list = []
     for line in raw_list:
-        for entry in line:
-            if entry != '' :
-                stripped_list.append(line[:])
-                break
+        if any(line):
+            stripped_list.append(line[:])
     return stripped_list
 
 
